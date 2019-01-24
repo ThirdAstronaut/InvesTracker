@@ -1,5 +1,6 @@
 package com.example.demo.selenium;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -20,30 +21,32 @@ public class SearchSiteTest {
     private StringBuffer verificationErrors = new StringBuffer();
     private List<String> coinNames;
 
-    @Autowired
-    private CoinMarketService coinMarketService;
+
 
     @Before
     public void setUp() throws Exception {
+        coinNames = new ArrayList<>();
         System.setProperty("webdriver.gecko.driver","D:\\Spring Boot\\geckodriver.exe");
         driver = new FirefoxDriver();
         baseUrl = "http://localhost:8088/";
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        coinNames.addAll(coinMarketService.coinNames());
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+        coinNames.add("bitcoin");
+        coinNames.add("xrp");
+        coinNames.add("ethereum");
+        coinNames.add("Stellar");
+        coinNames.add("Litecoin");
+
     }
 
     @Test
-    public void testSearchBar() throws Exception {
+    public void testSearchBar() {
         for(String name : coinNames) {
             driver.get("http://localhost:8088/search");
-
             assertEquals("InvesTracker - search", driver.getTitle());
-
             driver.findElement(By.id("coinName")).click();
             driver.findElement(By.id("coinName")).clear();
             driver.findElement(By.id("coinName")).sendKeys(name);
             driver.findElement(By.id("goBtn")).click();
-
             assertEquals("http://localhost:8088/coin?coinName="+name, driver.getCurrentUrl());
         }
     }

@@ -1,17 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.CoinDTO;
 import com.example.demo.domain.CoinMarketModel;
 import com.example.demo.service.CoinMarketService;
-import com.example.demo.service.CoinMarketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
@@ -25,26 +22,26 @@ public class CoinController {
 
 
     /**
-     * @param pSearchTerm
-     * @param model
-     * @return
+     * @param pSearchTerm coin name requested by the user
+     * @param model view to be displayed
+     * @return coinPage or errorPage
      */
     @GetMapping(value = "/coin")
     public String searchCoin(@RequestParam(value = "coinName", required = false) String pSearchTerm, Model model) {
         log.debug("searchCoinController");
 
-        if (coinMarketService.coinExist(pSearchTerm)) {
+        if (coinMarketService.coinExistByName(pSearchTerm)) {
             CoinMarketModel coin = coinMarketService.findByName(pSearchTerm);
-
-            model.addAttribute("coinFullName", coin.getName());
-            model.addAttribute("coinName", coin.getSymbol());
-            model.addAttribute("change1h", coin.getPercent_change_1h());
-            model.addAttribute("change24h", coin.getPercent_change_24h());
-            model.addAttribute("change7d", coin.getPercent_change_7d());
-            model.addAttribute("marketCapRanking", coin.getRank());
-            model.addAttribute("marketCap", coin.getMarket_cap_usd());
-            model.addAttribute("volume", coin.get_24h_volume_usd());
-            model.addAttribute("date", coin.getLast_updated());
+            CoinDTO coinDTO = new CoinDTO();
+            coinDTO.setCoin(coin);
+            model.addAttribute("coinFullName", coinDTO.getName());
+            model.addAttribute("coinName", coinDTO.getSymbol());
+            model.addAttribute("change1h", coinDTO.getPercent_change_1h());
+            model.addAttribute("change24h", coinDTO.getPercent_change_24h());
+            model.addAttribute("change7d", coinDTO.getPercent_change_7d());
+            model.addAttribute("marketCapRanking", coinDTO.getRank());
+            model.addAttribute("marketCap", coinDTO.getMarket_cap_usd());
+            model.addAttribute("volume", coinDTO.get_24h_volume_usd());
             return "coinPage";
         } else {
             return "redirect:404";

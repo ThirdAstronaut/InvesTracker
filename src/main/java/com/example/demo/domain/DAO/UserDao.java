@@ -10,11 +10,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class JpaUserDao implements Dao<Users> {
+public class UserDao implements Dao<Users> {
 
     private EntityManager entityManager;
-
-    // standard constructors
 
     @Override
     public Optional<Users> get(long id) {
@@ -35,7 +33,8 @@ public class JpaUserDao implements Dao<Users> {
     @Override
     public void update(Users user, String[] params) {
         user.setName(Objects.requireNonNull(params[0], "Name cannot be null"));
-        user.setEmail(Objects.requireNonNull(params[1], "Email cannot be null"));
+        user.setSurname(Objects.requireNonNull(params[1], "Surname cannot be null"));
+        user.setEmail(Objects.requireNonNull(params[2], "Email cannot be null"));
         executeInsideTransaction(entityManager -> entityManager.merge(user));
     }
 

@@ -18,21 +18,21 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 public class CoinServiceTest {
 
-    CoinMarketService coinMarketService;
+    private CoinMarketService coinMarketService;
 
     @Mock
+    private
     CoinRepository coinRepository;
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-
         coinMarketService = new CoinMarketServiceImpl(coinRepository);
     }
 
     @Test
-    public void getAllNames() throws Exception {
+    public void getAllNames() {
 
         CoinMarketModel coin = new CoinMarketModel().toBuilder().name("testName").build();
         List<String> coinData = new ArrayList<>();

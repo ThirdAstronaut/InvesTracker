@@ -35,7 +35,7 @@ public class Accounts implements Serializable {
     private String login;
 
     @NotNull
-    @Column(name = "jhi_password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @NotNull
@@ -52,8 +52,8 @@ public class Accounts implements Serializable {
     @OneToMany(mappedBy = "accounts")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Reports> reports = new HashSet<>();
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+
+     public Long getId() {
         return id;
     }
 
@@ -61,7 +61,7 @@ public class Accounts implements Serializable {
         this.id = id;
     }
 
-    public Instant getCreationDate() {
+    private Instant getCreationDate() {
         return creationDate;
     }
 
@@ -163,7 +163,6 @@ public class Accounts implements Serializable {
     public void setReports(Set<Reports> reports) {
         this.reports = reports;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

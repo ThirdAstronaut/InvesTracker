@@ -57,8 +57,7 @@ public class Users implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)    @JoinColumn(unique = true)
     private Wallets wallet;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+   public Long getId() {
         return id;
     }
 
@@ -169,7 +168,6 @@ public class Users implements Serializable {
     public void setWallet(Wallets wallets) {
         this.wallet = wallets;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

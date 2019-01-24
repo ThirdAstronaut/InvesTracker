@@ -37,42 +37,9 @@ public class Wallets implements Serializable {
     @Column(name = "exchange_rate")
     private Double exchangeRate;
 
-    @OneToMany(mappedBy = "wallets")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OneToMany//(mappedBy = "wallets")
+    @JoinColumn(name = "wallets_id")
     private Set<Transactions> transactions = new HashSet<>();
-
-    @ElementCollection
-   // @ElementCollection(targetClass=Wallets.class)
-  //  @MapKeyColumn(name="Wallets_cryptocurrencies")
-    private Map<CoinMarketModel, Double> cryptocurrencies;
-
-    @ManyToMany(mappedBy ="c_wallets", cascade = CascadeType.ALL)
-private Set<CoinMarketModel> cryptos = new HashSet<>();
-
-    public Set<CoinMarketModel> getCryptos() {
-        return cryptos;
-    }
-
-    public void setCryptos(Set<CoinMarketModel> cryptos) {
-        this.cryptos = cryptos;
-    }
-
-    public Wallets() {
-//        log.error("size"+String.valueOf(cryptos.toArray().length));
-        cryptocurrencies = new HashMap<>();
-        if(cryptos != null)
-        for(CoinMarketModel coin : cryptos){
-            cryptocurrencies.put(coin, 0.0);
-        }
-    }
-
-    public Map<CoinMarketModel, Double> getCryptocurrencies() {
-        return cryptocurrencies;
-    }
-
-    public void setCryptocurrencies(Map<CoinMarketModel, Double> cryptocurrencies) {
-        this.cryptocurrencies = cryptocurrencies;
-    }
 
     public Long getId() {
         return id;
@@ -158,7 +125,6 @@ private Set<CoinMarketModel> cryptos = new HashSet<>();
     public void setTransactions(Set<Transactions> transactions) {
         this.transactions = transactions;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

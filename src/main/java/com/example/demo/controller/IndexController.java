@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
+
+    /**
+     *
+     * @return redirect to index page
+     */
     @RequestMapping({"", "/", "/index"})
-    public String getIndexPage(Model model) {
+    public String getIndexPage() {
         return "index";
     }
 }

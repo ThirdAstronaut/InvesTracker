@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,202 +15,212 @@
 
     <!-- Custom styles for this template -->
     <style>
-      body {
-        padding-top: 54px;
-      }
-
-      @media (min-width: 992px) {
         body {
-          padding-top: 56px;
+            padding-top: 54px;
         }
-      }
 
-      .navbar-nav.navbar-center {
-        position: absolute;
-        left: 50%;
-        transform: translatex(-50%);
-      }
+        @media (min-width: 992px) {
+            body {
+                padding-top: 56px;
+            }
+        }
+
+        .navbar-nav.navbar-center {
+            position: absolute;
+            left: 50%;
+            transform: translatex(-50%);
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
 <!-- Navigation -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <div class="container">
-
-    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class=" nav navbar-nav navbar-left">
-        <li class="nav-item" style="color: lightgray;">
-          Rafał Lechowicz
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-center">
-        <li class="nav-item">
-          <a class="nav-link" href="../static/index.html">Wallet</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active"  href="search.html">Browse</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contact.html">Contact</a>
-        </li>
-      </ul>
-      <ul class=" nav navbar-nav navbar-right">
-        <li class="nav-item ">
-          <a class="nav-link" href="/">Sign out</a>
-        </li>
-      </ul>
-
-
-      <!--<ul class="nav navbar-nav navbar-right float-right text-right">
-  <li class="nav-item">
-    <a class="nav-link " href="index.html">Sign out</a>
-  </li>
-</ul>-->
-    </div>
-  </div>
-</nav>
-
-    <!-- Page Content -->
     <div class="container">
 
-      <!-- Page Heading/Breadcrumbs -->
-<h1 class="mt-4 mb-3 text-center"><p th:text="${coinFullName}" />
-<small><p th:text="'(' + ${coinName} + ')'" /></small>
-</h1>
-      <!--
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class=" nav navbar-nav navbar-left">
+                <li class="nav-item" style="color: lightgray;">
+                    Rafał Lechowicz
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/transaction">Wallet</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/search">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Contact</a>
+                </li>
+            </ul>
+            <ul class=" nav navbar-nav navbar-right">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+    <input type="hidden" id="widgetId" th:value="'COINBASE:'  + ${coinName} + 'USD/'"/>
+    <input type="hidden" id="yourId" th:value="${coinName}"/>
+
+    <div class="card-body">
+        <div class="row justify-content-sm-center">
+<div class="col-md-7">
+
+    <h1 class="mt-4 mb-3 text-center"><p th:text="${coinFullName}"/>
+        <small><p th:text="'(' + ${coinName} + ')'"/></small>
+    </h1>
+</div><div class="col-md-5">
+        <script type="text/javascript">
+    baseUrl = "https://widgets.cryptocompare.com/";
+    var spanNode = document.createElement('span');
+     (function () {
+        var appName = encodeURIComponent(window.location.hostname);
+        if (appName == "") {
+            appName = "local";
+        }
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        var val = document.getElementById("yourId").value;
+        var theUrl = baseUrl + 'serve/v2/coin/header?fsyms=' + val + '&tsyms=USD,EUR,CNY,GBP';
+        s.src = theUrl + (theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;
+        spanNode.appendChild( s );
+        var ele = document.currentScript;
+        ele.parentNode.insertBefore(spanNode,ele);
+
+    })();
+</script>
+        </div>
+    </div>
+   </div>
+</div>
+
+<!--
 <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/currency.js"></script>
 <div class="coinmarketcap-currency-widget" th:attr="data-currencyid=${coinId}" data-base="USD" data-secondary="" data-ticker="false"
-  data-rank="false" data-marketcap="false" data-volume="false" data-stats="USD" data-statsticker="false"></div>
+data-rank="false" data-marketcap="false" data-volume="false" data-stats="USD" data-statsticker="false"></div>
 -->
-      <input type="hidden" id="yourId" th:value="${coinName}"/>
 
 <!--<div class="btcwdgt-price float-center" bw-cash="true" bw-theme="light"></div> -->
 
 
-      <!-- Blog Post -->
-      <div class="card mb-4">
-        <div class="card-body">
+<!-- Blog Post -->
+<div class="card mb-4">
+    <div class="card-body">
 
-          <div class="row">
-            <script type="text/javascript">
-                baseUrl = "https://widgets.cryptocompare.com/";
-                var scripts = document.getElementsByTagName("script");
-                var embedder = scripts[ scripts.length - 1 ];
-                (function (){
-                    var appName = encodeURIComponent(window.location.hostname);
-                    if(appName==""){appName="local";}
-                    var s = document.createElement("script");
-                    s.type = "text/javascript";
-                    s.async = true;
-                    var val = document.getElementById("yourId").value;
-                    var theUrl = baseUrl+'serve/v2/coin/header?fsyms=' + val +'&tsyms=USD,EUR,CNY,GBP';
-                    s.src = theUrl + ( theUrl.indexOf("?") >= 0 ? "&" : "?") + "app=" + appName;
-                    embedder.parentNode.appendChild(s);
-                })();
-            </script>
-            <script>
-                (function (b, i, t, C, O, I, N) {
-                    window.addEventListener('load', function () {
-                        if (b.getElementById(C)) return;
-                        I = b.createElement(i), N = b.getElementsByTagName(i)[0];
-                        I.src = t;
-                        I.id = C;
-                        N.parentNode.insertBefore(I, N);
-                    }, false)
-                })(document, 'script', 'https://widgets.bitcoin.com/widget.js', 'btcwdgt');
-            </script>
-<!--<div class="btcwdgt-chart" bw-cash="true" bw-theme="light"></div> -->
 
-<!-- TradingView Widget BEGIN -->
-<div class="tradingview-widget-container">
-  <div id="tradingview_80fe7"></div>
+        <div class="row">
 
-  <div class="tradingview-widget-copyright"><a th:href= "'https://www.tradingview.com/symbols/KRAKEN-' + ${coinName} + 'USD/'" rel="noopener"
-      target="_blank"><span class="blue-text"><p th:text="${coinName} + 'USD chart'" /></span></a> by TradingView</div>
-  <script src="https://s3.tradingview.com/tv.js"></script>
 
-  <script type="text/javascript">
-    new TradingView.widget({
-      "width": 700,
-      "height": 500,
-      "symbol": "KRAKEN:"+document.getElementById("yourId").value+"USD",
-      "interval": "D",
-      "timezone": "Etc/UTC",
-      "theme": "Light",
-      "style": "1",
-      "locale": "en",
-      "toolbar_bg": "#f1f3f6",
-      "enable_publishing": false,
-      "hide_side_toolbar": false,
-      "allow_symbol_change": true,
-      "container_id": "tradingview_80fe7"
-    });
-  </script>
-</div>
-<!-- TradingView Widget END -->
-           
-            <div class="col-lg-4">
-<!--<h2 class="card-title">Bitcoin Cash</h2> -->
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Duration</th>
-      <th scope="col">Price change</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1h</td>
-      <th scope="row"><p th:text="${change1h}"/></th>
-    </tr>
-    <tr>
-      <td>24h</td>
-      <th scope="row"><p th:text="${change24h}"/></th>
-    </tr>
-    <tr>
-      <td>7d</td>
-      <th scope="row"><p th:text="${change7d}"/></th>
-    </tr>
-  </tbody>
-</table>
-<table class="table-borderless">
-  <tbody>
-    <tr>
-<td>Market Cap Ranking</td>
-      <th scope="row"><span th:utext="${marketCapRanking}"></span></th>
-    </tr>
-    <tr>
-<td>Market Cap($)</td>
-<th scope="row"><span th:utext="${marketCap}"></span></th>
-    </tr>
-    <tr>
-<td>Volume 24h ($)</td>
-<th scope="row"><span th:utext="${volume}"></span></th>
-    </tr>
-  </tbody>
-</table>
-             
+            <!--<div class="btcwdgt-chart" bw-cash="true" bw-theme="light"></div> -->
+
+            <!-- TradingView Widget BEGIN -->
+            <div class="col-lg-8">
+            <div class="tradingview-widget-container">
+                <div id="tradingview_80fe7"></div>
+
+                <div class="tradingview-widget-copyright"><a
+                        th:href="'https://www.tradingview.com/symbols/KRAKEN-' + ${coinName} + 'USD/'" rel="noopener"
+                        target="_blank"><span class="blue-text"><p th:text="${coinName} + 'USD chart'"/></span></a> by
+                    TradingView
+                </div>
+                <script src="https://s3.tradingview.com/tv.js"></script>
+
+                <script type="text/javascript">
+                    new TradingView.widget({
+                        "width": 700,
+                        "height": 500,
+                        "symbol": "KRAKEN:" + document.getElementById("yourId").value + "USD",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "Light",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "hide_side_toolbar": false,
+                        "allow_symbol_change": true,
+                        "container_id": "tradingview_80fe7"
+                    });
+                </script>
             </div>
-          </div>
+            </div>
+            <!-- TradingView Widget END -->
+
+            <div class="col-lg-4">
+                <!--<h2 class="card-title">Bitcoin Cash</h2> -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Price change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1h</td>
+                        <th scope="row"><p th:text="${change1h}"/></th>
+                    </tr>
+                    <tr>
+                        <td>24h</td>
+                        <th scope="row"><p th:text="${change24h}"/></th>
+                    </tr>
+                    <tr>
+                        <td>7d</td>
+                        <th scope="row"><p th:text="${change7d}"/></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Market Cap Ranking:</td>
+                        <th scope="row"><span th:utext="${marketCapRanking}"></span></th>
+                    </tr>
+                    <tr>
+                        <td>Market Cap($):</td>
+                        <th scope="row"><span th:utext="${marketCap}"></span></th>
+                    </tr>
+                    <tr>
+                        <td>Volume 24h ($):</td>
+                        <th scope="row"><span th:utext="${volume}"></span></th>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
-<!--        <div class="card-footer text-muted">
-          <p th:text="'Data actual: ' + ${date} " />
-                  </div> -->
-      </div>
-
     </div>
+    <!--        <div class="card-footer text-muted">
+              <p th:text="'Data actual: ' + ${date} " />
+                      </div> -->
+</div>
 
-  </div>
-  <!-- /.container -->
+</div>
 
+</div>
+<!-- /.container -->
 
-  <!-- Bootstrap core JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
 
 </body>

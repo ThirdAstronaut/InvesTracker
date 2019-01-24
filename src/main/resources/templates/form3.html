@@ -29,8 +29,9 @@
             left: 50%;
             transform: translatex(-50%);
         }
-        .text-hint{
-            color : #6c757d
+
+        .text-hint {
+            color: #6c757d
         }
     </style>
 </head>
@@ -42,7 +43,7 @@
     <div class="container">
 
         <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -52,10 +53,10 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-center">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/transaction">Wallet</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/search">Browse</a>
                 </li>
                 <li class="nav-item">
@@ -78,172 +79,218 @@
     </div>
 </nav>
 
-    <!-- Page Content -->
-    <div class="container">
-<div class="alert alert-danger" role="alert" id="dangerAlert" style="display: none;">
-<strong>Oh snap!</strong> Transaction ended unsuccesfully.
-</div>
-<!--
-<div class="alert alert-success align-top" role="alert" id="successAlert" style="display: none;">
-    <strong>Well done!</strong> Transaction ended successfully.
-</div>
--->
-        <!-- Page Heading/Breadcrumbs -->
-        <h1 class="mt-4  text-center">Transaction
+<!-- Page Content -->
+<div class="container">
+    <!--/*@thymesVar id="works" type="int"*/-->
+    <div class="alert alert-danger" role="alert" id="dangerAlert" style="display : none">
+        <strong>Oh snap!</strong> Transaction ended unsuccesfully.
+    </div>
+    <div class="alert alert-success align-top" role="alert" id="successAlert" style="display: none;">
+        <strong>Well done!</strong> Transaction ended successfully.
+    </div>
+    <p>
+    <div style="display: none;"></div>
+    </p>
 
-        </h1>
+    <!--
+    <div class="alert alert-success align-top" role="alert" id="successAlert" style="display: none;">
+        <strong>Well done!</strong> Transaction ended successfully.
+    </div>
+    -->
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4  text-center">Transaction
+
+    </h1>
 
 
-        <!-- Contact Form -->
-        <!-- In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
-        <div class="row ">
-<div class="d-flex justify-content-center align-items-center container ">
-                <!--/*@thymesVar id="transaction" type="com.example.demo.domain.Transactions"*/-->
-                <form name="transactionForm" id="transactionForm" action="#" th:action="@{/transaction}"  th:object="${transaction}" method="post">
-                    <div class="control-group form-group ">
+    <!-- Contact Form -->
+    <!-- In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+    <div class="row ">
+        <div class="d-flex justify-content-center align-items-center container ">
+            <!--/*@thymesVar id="transaction" type="com.example.demo.domain.Transactions"*/-->
+            <form name="transactionForm" id="transactionForm" action="#" th:action="@{/transaction}"
+                  th:object="${transaction}" method="post">
+                <div class="control-group form-group ">
 
-<div class="form-group row form-inline justify-content-center ">
-                            <label for="assetName" class="col-sm-2 col-form-label ">Asset Name:</label>
-                            <div class="col-sm-10 ">
-                                <input type="text" class="form-control" id="assetName" required aria-describedby="assetNameHelpInline" th:field="*{cryptocurrencies.name}" />
-                                <small id="assetNameHelpInline" class="text-hint" >
+                    <div class="form-group row form-inline justify-content-center ">
+                        <label for="assetName" class="col-sm-2 col-form-label ">Asset Name:</label>
+                        <div class="col-sm-10 ">
+                            <!--/*@thymesVar id="coin" type="com.example.demo.domain.Transactions"*/-->
+                            <input type="text" class="form-control" id="assetName" required
+                                   aria-describedby="assetNameHelpInline" th:field="*{coinName}"/>
+                            <small id="assetNameHelpInline" class="text-hint">
                                 Must be a valid coin name.
-                                </small>
-                            </div>
+                            </small>
                         </div>
                     </div>
-<div class="form-group row  form-inline  justify-content-center">
-                        <label for="type" class="col-sm-2 col-form-label">Transaction type</label>
+                </div>
+                <div class="form-group row  form-inline  justify-content-center">
+                    <label for="type" class="col-sm-2 col-form-label">Transaction type</label>
+                    <div class="col-sm-10">
+                        <select id="type" class="form-control" th:field="*{type}">
+                            <option selected th:value="Buy">BUY</option>
+                            <option th:value="Sell">SELL</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group form-group">
+                    <div class="form-group row form-inline justify-content-center">
+                        <label for="assetNum" class="col-sm-2 col-form-label">Number of assets:</label>
                         <div class="col-sm-10">
-                            <select id="type" class="form-control" th:field="*{type}">
-                                <option selected th:value="Buy">BUY</option>
-                                <option th:value="Sell">SELL</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group form-group">
-<div class="form-group row form-inline justify-content-center">
-                            <label for="assetNum" class="col-sm-2 col-form-label">Number of assets:</label>
-                            <div class="col-sm-10">
-                                <input type="number" step="any" class="form-control" id="assetNum" required aria-describedby="assetNumHelpInline"  th:field="*{amount}">
-                                <small id="assetNumHelpInline" class="text-hint">
-                                    Must be a positive number.
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-<div class="form-group row form-inline  justify-content-center">
-                        <label for="currency" class="col-sm-2 col-form-label" >Transaction currency</label>
-                        <div class="col-sm-10">
-<select id="currency" class="form-control" th:field="*{currency}">
-                                <option selected th:value="PLN">PLN</option>
-                                <option th:value="USD">USD</option>
-                            </select>
-                        </div>
-                    </div>
-
-<div class="form-group row form-inline justify-content-center">
-                        <label for="assetPrice" class="col-sm-2 col-form-label">Assets price:</label>
-                        <div class="col-sm-10">
-                            <input type="number" step="any" class="form-control" id="assetPrice" required aria-describedby="priceHelpInline" th:field="*{price}">
-                            <small id="assetPriceHelpInline" class="text-hint">
+                            <input type="number" step="any" class="form-control" id="assetNum" required
+                                   aria-describedby="assetNumHelpInline" th:field="*{amount}">
+                            <small id="assetNumHelpInline" class="text-hint">
                                 Must be a positive number.
                             </small>
                         </div>
                     </div>
+                </div>
+                <div class="form-group row form-inline  justify-content-center">
+                    <label for="currency" class="col-sm-2 col-form-label">Transaction currency</label>
+                    <div class="col-sm-10">
+                        <select id="currency" class="form-control" th:field="*{currency}">
+                            <option selected th:value="PLN">PLN</option>
+                            <option th:value="USD">USD</option>
+                        </select>
+                    </div>
+                </div>
 
-            </div>
+                <div class="form-group row form-inline justify-content-center">
+                    <label for="assetPrice" class="col-sm-2 col-form-label">Assets price:</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="any" class="form-control" id="assetPrice" required
+                               aria-describedby="priceHelpInline" th:field="*{price}">
+                        <small id="assetPriceHelpInline" class="text-hint">
+                            Must be a positive number.
+                        </small>
+                    </div>
+                </div>
 
         </div>
-        <div class=" mb-4 text-center">
-            <div id="success"></div>
-            <!-- For success/fail messages -->
-            <button type="submit" class="btn btn-primary" id="acceptButton" onclick="validateTransaction()">Accept</button>
-            </form>
-        </div>
-    </div>
-    </div>
-    <!-- /.row -->
 
     </div>
-    <!-- /.container -->
+    <div class=" mb-4 text-center">
+        <div id="success"></div>
+        <!-- For success/fail messages -->
+        <button type="submit" class="btn btn-primary" id="acceptButton">Accept</button>
+        <!--onclick="validateTransaction()" -->
+        </form>
+    </div>
+</div>
+</div>
+<!-- /.row -->
 
-<script  type="text/javascript">
-    document.getElementById("assetName").addEventListener("focusout", validateFieldString('Name'));
+</div>
+<!-- /.container -->
+
+<script type="text/javascript">
+    document.getElementById("assetName").addEventListener("focusout", validateFieldString('Name'), true);
+
     function validateFieldString(text) {
-        var x = document.getElementById("asset"+text);
-        if(x.value.length > 20 || [[${wrongName}]]){
-            document.getElementById("asset"+text+"HelpInline").style.color = "red";
+        var x = document.getElementById("asset" + text);
+        if (x.value.length > 20 || [[${wrongName}]]) {
+            document.getElementById("asset" + text + "HelpInline").style.color = "red";
         } else {
-            document.getElementById("asset"+text+"HelpInline").style.color = "#6c757d";
+            document.getElementById("asset" + text + "HelpInline").style.color = "#6c757d";
         }
     }
 
+
+
+</script>
+<!--
+<script> window.addEventListener('DOMContentLoaded', validateCoinName, false);
+
+function validateCoinName() {
+    var x = document.getElementById("assetName");
+
+    if (x.value.length > 20 || [[${wrongName}]]) {
+        document.getElementById("assetNameHelpInline").style.color = "red";
+    } else {
+        document.getElementById("assetNameHelpInline").style.color = "#6c757d";
+    }}
+
+</script>
+-->
+<script>
+    window.addEventListener('DOMContentLoaded', validateTransaction, false);
 
     function validateTransaction() {
-        var x = document.getElementById("asset"+text);
-        if([[${works}]]){
-            document.getElementById("dangerAlert").style.display = "none";
-        } else {
+        if ([[${works}]] === 2) {
             document.getElementById("dangerAlert").style.display = "block";
-            document.getElementById("assetNameHelpInline").style.color = "red";
+            document.getElementById("acceptButton").disabled = true;
+
+        } else if ([[${works}]] === 1) {
+//             document.getElementById("assetNameHelpInline").style.color = "red";
+            document.getElementById("successAlert").style.display = "block";
+            document.getElementById("assetName").style.borderColor = "green";
+            document.getElementById("type").style.borderColor = "green";
+            document.getElementById("assetNum").style.borderColor = "green";
+            document.getElementById("currency").style.borderColor = "green";
+            document.getElementById("assetPrice").style.borderColor = "green";
+            document.getElementById("acceptButton").disabled = true;
+
+
+        }
+        else if ([[${works}]] === 0) {
+            document.getElementById("dangerAlert").style.display = "none";
+            document.getElementById("successAlert").style.display = "none";
+        }
+        else if ([[${works}]] === 3) {
+            alertScript();
+            // document.getElementById("acceptButton").disabled = true;
 
         }
     }
-
 
 </script>
 <script>
 
-    document.getElementById("assetNum").addEventListener("blur", validateFieldNumber('Num'), true);
-    document.getElementById("assetPrice").addEventListener("blur", validateFieldNumber('Price'), true);
+    document.getElementById("assetNum").addEventListener("focusout", validateFieldNumber('Num'), true);
+    document.getElementById("assetPrice").addEventListener("focusout", validateFieldNumber('Price'), true);
 
 
     function validateFieldNumber(text) {
-        var x = document.getElementById("asset"+text);
-        if(x.value.length > 20 || x.value < 0){
-            document.getElementById("asset"+text+"HelpInline").style.color = "red";
+        var x = document.getElementById("asset" + text);
+        if (x.value.length > 20 || x.value < 0) {
+            document.getElementById("asset" + text + "HelpInline").style.color = "red";
+            //   document.getElementById("asset"+text).style.borderColor = "red";
+
         } else {
-            document.getElementById("asset"+text+"HelpInline").style.color = "#6c757d";
+            document.getElementById("asset" + text + "HelpInline").style.color = "#6c757d";
         }
     }
 
 </script>
-    <!-- Bootstrap core JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
 <!-- net <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" ></script> -->
-    <!-- Contact form JavaScript -->
-    <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.js" ></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    function wrongName(){
+<!-- Contact form JavaScript -->
+<!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.7/jqBootstrapValidation.js"></script>
 
-    }
-
-    /*]]>*/
-</script>
-<script >
-        function alertScript() {
-            var result = confirm("An error occured. Would you like to repeat the process?");
-var loading = document.getElementById ( "dangerAlert" ) ;
+<script>
+    function alertScript() {
+        var result = confirm("An error occured. Would you like to repeat the process?");
+        var loading = document.getElementById("dangerAlert");
 //var success = document.getElementById ( "successAlert" ) ;
-var acceptBtn = document.getElementById ( "acceptButton" ) ;
 
-            if (!result) {
-loading.style.display = "block" ;
+        if (!result) {
+            loading.style.display = "block";
+            document.getElementById("acceptButton").disabled = true;
+
 //success.style.display = "none" ;
-acceptBtn.disabled = true;
-return false;
-            } else {
-loading.style.display = "none" ;
+
+            return false;
+        } else {
+            loading.style.display = "none";
 //success.style.display = "block" ;
 
-return false;
-            }
+            return false;
         }
-    </script>
+    }
+</script>
 </body>
 
 </html>

@@ -29,8 +29,7 @@ public class Reports implements Serializable {
     @JsonIgnoreProperties("reports")
     private Accounts accounts;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    public Long getId() {
+     public Long getId() {
         return id;
     }
 
@@ -63,7 +62,6 @@ public class Reports implements Serializable {
     public void setAccounts(Accounts accounts) {
         this.accounts = accounts;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

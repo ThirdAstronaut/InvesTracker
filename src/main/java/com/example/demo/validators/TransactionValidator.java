@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- *
- */
 @Component
 public class TransactionValidator implements Validator {
 
@@ -28,12 +25,12 @@ public class TransactionValidator implements Validator {
     @Override
     public void validate(Object obj, Errors errors) {
         Transactions transaction = (Transactions) obj;
-        if(!coinMarketService.coinExist(transaction.getCryptocurrencies().getName())){
-            errors.rejectValue("cryptocurrencies.name", "cryptocurrencies.name.empty");
+        if(!coinMarketService.coinExistByName(transaction.getCoinName())){
+            errors.rejectValue("coinName", "coinName.empty");
         }
 
-        if (checkInputString(transaction.getCryptocurrencies().getName())) {
-            errors.rejectValue("cryptocurrencies.name", "cryptocurrencies.name.empty");
+        if (checkInputString(transaction.getCoinName())) {
+            errors.rejectValue("coinName", "coinName.empty");
         }
 
         if (checkInputNumber(transaction.getAmount())) {

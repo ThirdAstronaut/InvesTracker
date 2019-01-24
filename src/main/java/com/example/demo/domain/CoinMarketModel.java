@@ -3,35 +3,11 @@ package com.example.demo.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Rafał on 2017-08-30.
- */
-/*
-    Example json output
-    @Url -> https://api.coinmarketcap.com/v1/ticker/?limit=10
-        "id": "bitcoin",
-        "name": "Bitcoin",
-        "symbol": "BTC",
-        "rank": "1",
-        "price_usd": "4556.78",
-        "price_btc": "1.0",
-        "24h_volume_usd": "2070790000.0",
-        "market_cap_usd": "75338838613.0",
-        "available_supply": "16533350.0",
-        "total_supply": "16533350.0",
-        "percent_change_1h": "0.44",
-        "percent_change_24h": "0.05",
-        "percent_change_7d": "8.9",
-        "last_updated": "1504112069"
-    */
 
 @Entity
 @Table(name = "COINS")
@@ -42,32 +18,52 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CoinMarketModel {
 
-@Id
+    @Id
     private String id;
-
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
+    @NotNull
+    @Column(name = "symbol", nullable = false)
     private String symbol;
+    @NotNull
+    @Column(name = "rank", nullable = false)
     private String rank;
+    @NotNull
+    @Column(name = "price_usd", nullable = false)
     private String price_usd;
+    @NotNull
+    @Column(name = "price_btc", nullable = false)
     private String price_btc;
-
+    @NotNull
+    @Column(name = "_24h_volume_usd", nullable = false)
     @JsonProperty("24h_volume_usd")
     private String _24h_volume_usd;
-
+    @NotNull
+    @Column(name = "market_cap_usd", nullable = false)
     private String market_cap_usd;
+    @NotNull
+    @Column(name = "available_supply", nullable = false)
     private String available_supply;
+    @NotNull
+    @Column(name = "total_supply", nullable = false)
     private String total_supply;
+    @NotNull
+    @Column(name = "percent_change_1h", nullable = false)
     private String percent_change_1h;
+    @NotNull
+    @Column(name = "percent_change_24h", nullable = false)
     private String percent_change_24h;
+    @NotNull
+    @Column(name = "percent_change_7d", nullable = false)
     private String percent_change_7d;
+    @NotNull
+    @Column(name = "last_updated", nullable = false)
     private String last_updated;
 
-    @OneToMany(mappedBy = "cryptocurrencies")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @OneToMany
+    @JoinColumn(name = "coin_id")
     private Set<Transactions> c_transactions = new HashSet<>();
-
-    @ManyToMany//(mappedBy = "cryptos")
-    private Set<Wallets> c_wallets = new HashSet<>();
 
     public String getId() {
         return id;

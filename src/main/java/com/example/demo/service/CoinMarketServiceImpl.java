@@ -14,6 +14,8 @@ import java.util.*;
 
 @Service("coinMarketService")
 public class CoinMarketServiceImpl implements CoinMarketService{
+    private final String WEB_API_URL = "https://api.coinmarketcap.com/v1/ticker/?limit=10";
+
     private final CoinRepository coinRepository;
 
     @Autowired
@@ -22,7 +24,7 @@ public class CoinMarketServiceImpl implements CoinMarketService{
     }
 
     /**
-     * @return List of CoinMarketModels got from web API
+     * @return List of CoinMarketModels acquired from web API
      */
     private List<CoinMarketModel> fetchData(){
         RestTemplate restTemplate = new RestTemplate();
@@ -33,7 +35,15 @@ public class CoinMarketServiceImpl implements CoinMarketService{
 
         restTemplate.setMessageConverters(messageConverters);
 
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject("https://api.coinmarketcap.com/v1/ticker/?limit=10", CoinMarketModel[].class)));
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(WEB_API_URL, CoinMarketModel[].class)));
+    }
+
+    /**
+     * Scheduled method to fetch CoinMarketModel data from web API every hour with an initial delay set to 1 hour
+     */
+    @Scheduled(initialDelay = 3_600_000, fixedRate = 3_600_000)
+    private void saveCoins(){
+        coinRepository.saveAll(fetchData());
     }
 
     /**
@@ -44,7 +54,6 @@ public class CoinMarketServiceImpl implements CoinMarketService{
         List<String> list = new ArrayList<>();
         for(CoinMarketModel coin : coinRepository.findAll()) {
             list.add(coin.getName());
-/*            list.add(coin.getSymbol());*/
         }
         return list;
     }
@@ -52,22 +61,13 @@ public class CoinMarketServiceImpl implements CoinMarketService{
     /**
      *
      * @param name CoinMarketModel's name to search
-     * @return whether such coin exist in database
+     * @return whether such coin exists in database
      */
-    public boolean coinExist(String name){
-        return coinRepository.findByName(name) != null /*|| coinRepository.findBySymbol(name) != null*/;
+    public boolean coinExistByName(String name){
+        return coinRepository.findByName(name) != null;
     }
 
 
-
-    /**
-     * Scheduled method to fetch CoinMarketModel data from web API
-     */
-    //@Async
-    @Scheduled(initialDelay = 6_000_000, fixedRate = 6_000_000)
-    private void saveCoins(){
-        coinRepository.saveAll(fetchData());
-    }
 
     /**
      * @param name CoinMarketModel's name to find

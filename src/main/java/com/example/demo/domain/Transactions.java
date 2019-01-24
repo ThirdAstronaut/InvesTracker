@@ -28,12 +28,12 @@ public class Transactions implements Serializable {
     private Long id;
 
 
-    @Column(name = "jhi_date", nullable = true)
+    @Column(name = "date", nullable = true)
     private LocalDate date;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "jhi_type", nullable = false)
+    @Column(name = "type", nullable = false)
     private TransactionType type;
 
     @NotNull
@@ -49,18 +49,29 @@ public class Transactions implements Serializable {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @Column(name = "jhi_value", nullable = true)
+    @NotNull
+    @Column(name = "coinName", nullable = false)
+    private String coinName;
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
+    }
+
+    @Column(name = "value", nullable = true)
     private Double value;
 
-    @ManyToOne  //do wallet
-    @JsonIgnoreProperties("transactions")
+    @ManyToOne(targetEntity = Wallets.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "wallets_id")
     private Wallets wallets;
 
-    @ManyToOne
-    @JsonIgnoreProperties("c_transactions")
-    private CoinMarketModel cryptocurrencies;
+    @ManyToOne(targetEntity = CoinMarketModel.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "coin_id")
+    private CoinMarketModel coin;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -160,19 +171,18 @@ public class Transactions implements Serializable {
         this.wallets = wallets;
     }
 
-    public CoinMarketModel getCryptocurrencies() {
-        return cryptocurrencies;
+    public CoinMarketModel getCoin() {
+        return coin;
     }
 
-    public Transactions cryptocurrencies(CoinMarketModel cryptocurrencies) {
-        this.cryptocurrencies = cryptocurrencies;
+    public Transactions coin(CoinMarketModel cryptocurrencies) {
+        this.coin= cryptocurrencies;
         return this;
     }
 
-    public void setCryptocurrencies(CoinMarketModel cryptocurrencies) {
-        this.cryptocurrencies = cryptocurrencies;
+    public void setCoin(CoinMarketModel cryptocurrencies) {
+        this.coin = cryptocurrencies;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
